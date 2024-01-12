@@ -1,0 +1,58 @@
+//SOLUTION TO THIS LEETCODE PROBLEM : https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/?envType=daily-question&envId=2024-01-11
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+int recursiveCompare(struct TreeNode* root, int rootVal){
+
+    int maxDiff = abs((root -> val) - rootVal);
+
+    if(root -> left != NULL){
+
+        if(recursiveCompare(root -> left, rootVal) > maxDiff){
+            maxDiff = recursiveCompare(root -> left, rootVal);
+        }
+
+    } 
+    if(root -> right != NULL){
+
+        if(recursiveCompare(root -> right, rootVal) > maxDiff){
+            maxDiff = recursiveCompare(root -> right, rootVal);
+        }
+    } 
+
+    return maxDiff;
+}
+
+int maxAncestorDiff(struct TreeNode* root) {
+
+    int maxDiff = recursiveCompare(root, root -> val);
+
+    if(root -> left != NULL && (root -> left -> left != NULL || root -> left -> right != NULL)){
+
+        if(maxAncestorDiff(root -> left) > maxDiff){
+            maxDiff = maxAncestorDiff(root -> left);
+        }
+
+    } 
+    if(root -> right != NULL && (root -> right -> left != NULL || root -> right -> right != NULL)){
+
+        if(maxAncestorDiff(root -> right) > maxDiff){
+            maxDiff = maxAncestorDiff(root -> right);
+        }
+
+    }
+    
+    return maxDiff;
+    
+}
+
+
+
+
+
